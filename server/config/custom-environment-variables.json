@@ -1,0 +1,5 @@
+{
+    "Server": {
+        "port": "SERVER_PORT"
+    }
+}
