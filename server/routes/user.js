@@ -37,6 +37,22 @@ router.post("/", [
     res.status(200).end();
 });
 
+router.post("/login", [], async (req, res) => {
+    const username = req.body?.username;
+    const password = req.body?.password;
+
+    const user = await UserStore.get(username);
+    if(user != null) {
+        if(user.pwd == password) {
+            res.send({ token: 'test123'}).status(200).end();
+        } else {
+            res.send(401).end();
+        }
+    } else {
+        res.status(401).end();
+    }
+});
+
 router.get("/:email", [
     param('email').isEmail()
 ], async (req,res) => {

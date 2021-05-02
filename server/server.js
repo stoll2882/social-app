@@ -12,6 +12,7 @@ const port = config.get('Server.port');
 
 /*app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); */
+app.use(express.json());
 app.use(upload.array()); 
 
 const corsOptions = {
