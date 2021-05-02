@@ -2,10 +2,11 @@ import { React, useState } from 'react';
 import './Login.css';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { getAppApiUrl } from '../../Config';
 
 async function loginUser(credentials) {
  try {
-    return await axios.post('http://localhost:3009/api/user/login', credentials);
+    return await axios.post(getAppApiUrl()+'/api/user/login', credentials);
   } catch(error) {
     return null;
   }
