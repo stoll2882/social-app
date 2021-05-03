@@ -1,16 +1,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Login from './components/Login/Login';
-import useToken from './useToken';
+import UserService from './services/UserService';
 
 export default function PrivateRoute({
     component: Component,
     ...rest
 }) {
-  const { token, setToken } = useToken();
 
-  if(!token) {
-    return <Login setToken={setToken}/>
+  if(!UserService.isLoggedIn()) {
+    return <Login redirect={false}/>
   }
 
   return(

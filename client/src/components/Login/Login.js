@@ -1,33 +1,29 @@
 import { React, useState } from 'react';
 import './Login.css';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { getAppApiUrl } from '../../Config';
+import { Redirect } from 'react-router-dom';
+import UserService from '../../services/UserService';
 
-async function loginUser(credentials) {
- try {
-    return await axios.post(getAppApiUrl()+'/api/user/login', credentials);
-  } catch(error) {
-    return null;
-  }
-}
-
-export default function Login({setToken}) {
+export default function Login({redirect}) {
+  
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();  
+  const [loginWorked, setLoginWorked] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const token = await loginUser({
-      username,
-      password
-    });
-    if(token != null) {
-      setToken(token.data);
+    await UserService.login(username, password);
+
+    if(UserService.isLoggedIn()) {
+      setLoginWorked(true);
+      window.location.reload();
     } else {
       setErrorMessage("Login failed");
     }
+  }
+
+  if(loginWorked) {
+    return <Redirect to="/dashboard"/>
   }
 
   return(
@@ -51,6 +47,4 @@ export default function Login({setToken}) {
   )
 }
 
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
-}
+
