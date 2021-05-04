@@ -29,6 +29,10 @@ class UserStore {
             console.log("Failed to save new user "+err);
         }        
     }
+
+    static generateToken(user) {
+        return { token: 'test123'};
+    }
     
 }
 

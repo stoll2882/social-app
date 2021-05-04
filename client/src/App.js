@@ -11,6 +11,7 @@ import Register from './components/Register/Register';
 import LearnMore from './components/LearnMore/LearnMore';
 import NavBar from './components/NavBar/NavBar';
 import Login from './components/Login/Login';
+import Debug from './components/Debug/Debug';
 
 const UserContext = React.createContext(null);
 
@@ -32,7 +33,9 @@ export default function App() {
             <Route path="/register" component={Register}/>
             <Route path="/learnmore" component={LearnMore}/>
             <Route path="/login" redirect={true} component={Login}/>
+            <Route path="/register" component={Register}/>
             <PrivateRoute path="/preferences" component={Preferences}/>
+            <Route path="/debug" component={Debug}/>
             <Route path="/" component={Welcome}/>
           </Switch>
         </BrowserRouter>

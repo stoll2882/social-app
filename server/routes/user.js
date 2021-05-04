@@ -4,11 +4,13 @@ const { param, body, validationResult } = require('express-validator');
 const UserStore = require('../data/userstore');
 
 router.post("/", [
-    body('fname').not().isEmpty(),
-    body('lname').not().isEmpty(),
-    body('pwd').isLength( { min:6 } ),
+    body('email').not().isEmpty(),
+    body('lastName').not().isEmpty(),
+    body('firstName').not().isEmpty(),
+    body('password').isLength( { min:6 } ),
     body('email').isEmail(),
-    body('mobile').isMobilePhone( ['en-CA'] )
+    body('alias').isLength({ min:3 } ).not().isEmpty(),
+    body('mobile').isMobilePhone( ['en-US'] )
 ], async (req,res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
@@ -21,30 +23,35 @@ router.post("/", [
     }
 
     var newUser = new User({
-        fname: req.body.fname,
-        lname: req.body.lname,
-        pwd: req.body.pwd,
         email: req.body.email,
-        mobile: req.body.mobile
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        mobile: req.body.mobile,
+        alias: req.body.alias
     });
 
     try {
         await UserStore.save(newUser);
     } catch(err) {
         console.log("Failed to save new user "+err);
+        res.send("Failed to create user").status(400).end();
     }
+    
+    const token = UserStore.generateToken(newUser);
 
-    res.status(200).end();
+    res.send(token).status(200).end();
 });
 
 router.post("/login", [], async (req, res) => {
-    const username = req.body?.username;
+    const email = req.body?.email;
     const password = req.body?.password;
 
-    const user = await UserStore.get(username);
+    const user = await UserStore.get(email);
     if(user != null) {
-        if(user.pwd == password) {
-            res.send({ token: 'test123'}).status(200).end();
+        if(user.password == password) {
+            const token = UserStore.generateToken(user);
+            res.send(token).status(200).end();
         } else {
             res.send(401).end();
         }

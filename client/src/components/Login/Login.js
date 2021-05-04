@@ -5,14 +5,14 @@ import UserService from '../../services/UserService';
 
 export default function Login({redirect}) {
   
-  const [username, setUserName] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();  
   const [loginWorked, setLoginWorked] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await UserService.login(username, password);
+    await UserService.login(email, password);
 
     if(UserService.isLoggedIn()) {
       setLoginWorked(true);
@@ -31,8 +31,8 @@ export default function Login({redirect}) {
       <h1>Please Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          <p>Username</p>
-          <input type="text" onChange={e => setUserName(e.target.value)}/>
+          <p>Email</p>
+          <input type="text" onChange={e => setEmail(e.target.value)}/>
         </label>
         <label>
           <p>Password</p>
