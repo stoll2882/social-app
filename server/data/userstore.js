@@ -31,7 +31,14 @@ class UserStore {
     }
 
     static generateToken(user) {
-        return { token: 'test123'};
+        return { 
+            token: 'test123',
+            email: user.email,
+            alias: user.alias,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            mobile: user.mobile
+        };
     }
     
 }

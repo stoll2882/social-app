@@ -1,5 +1,9 @@
 {
     "Server": {
         "port": "SERVER_PORT"
-    }
+    },
+    "Mailer": {
+        "email": "MAILER_EMAIL",
+        "password": "MAILER_PASSWORD"
+    }    
 }

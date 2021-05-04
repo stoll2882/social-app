@@ -1,5 +1,9 @@
 {
     "Server": {
         "port": 3009
+    },
+    "Mailer": {
+        "email": "rod_toll@yahoo.com",
+        "password": "piibzlefuxzqocfn"
     }
 }

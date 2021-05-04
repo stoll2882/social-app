@@ -1,39 +1,27 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
+import UserService from '../../services/UserService';
 
 export default function Preferences() {
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [mobile, setMobile] = useState();
-  const [alias, setAlias] = useState();
-  const [userLoaded, setUserLoaded] = useState(false);
-
-  useEffect(() => {
-
-  }, []);
+  var userInfo = UserService.getUserInfo();
 
   return(
     <Fragment>
       <h2>Preferences</h2>
       <p>
-        <b>Email: </b>{email}
+        <b>Email: </b>{userInfo?.email}
       </p>
       <p>
-        <b>Password: </b>{password}
+        <b>First Name: </b>{userInfo?.firstName}
       </p>
       <p>
-        <b>First Name: </b>{firstName}
+        <b>Last Name: </b>{userInfo?.lastName}
       </p>
       <p>
-        <b>Last Name: </b>{lastName}
+        <b>Mobile: </b>{userInfo?.mobile}
       </p>
       <p>
-        <b>Mobile: </b>{mobile}
-      </p>
-      <p>
-        <b>Alias: </b>{alias}
+        <b>Alias: </b>{userInfo.alias}
       </p>
 
     </Fragment>

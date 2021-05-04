@@ -30,6 +30,22 @@ export default class UserService {
         }
     }
 
+    static getUserInfo() {
+        var token = localStorage.getItem("token");
+        if(token == null) {
+            return null;
+        } else {
+            var parsedToken = JSON.parse(token);
+            return {
+                email: parsedToken.email,
+                firstName: parsedToken.firstName,
+                lastName: parsedToken.lastName,
+                mobile: parsedToken.mobile,
+                alias: parsedToken.alias
+            };
+        }
+    }
+
     static isLoggedIn() {
         return (localStorage.getItem("token")) != null;
     }

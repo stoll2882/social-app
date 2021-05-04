@@ -20,9 +20,13 @@ router.post("/", [
         return res.send("Could not find specified user").status(404).end();
     }
 
+    var postDate = new Date();
+
     var newPost = new Post({
         user: user.id,
         text: req.body.text,
+        created: postDate,
+        edited: postDate
     });
 
     try {

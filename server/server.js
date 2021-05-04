@@ -25,6 +25,7 @@ app.use(cors(corsOptions));
 
 app.use('/api/user', require('./routes/user'));
 app.use('/api/post', require('./routes/post'));
+app.use('/api/notify', require('./routes/notify'));
 
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
