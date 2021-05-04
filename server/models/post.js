@@ -5,6 +5,10 @@ const PostSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user.v2',
     },
+    alias: {
+      type: String,
+      required: true,
+    },
     text: {
       type: String,
       required: true,
@@ -39,4 +43,4 @@ const PostSchema = new mongoose.Schema({
     ]
   });
 
-  module.exports = Post = mongoose.model('post', PostSchema);
+  module.exports = Post = mongoose.model('post.v2', PostSchema);

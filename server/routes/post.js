@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
+const { param, body, validationResult } = require('express-validator');
 const PostStore = require('../data/poststore');
 const UserStore = require('../data/userstore');
 
@@ -24,6 +24,7 @@ router.post("/", [
 
     var newPost = new Post({
         user: user.id,
+        alias: user.alias,
         text: req.body.text,
         created: postDate,
         edited: postDate
@@ -41,6 +42,22 @@ router.post("/", [
 router.get("/", [], async (req, res) => {
     var posts = await PostStore.getAll();
     res.json(posts).status(200).end();
+});
+
+router.delete("/:postId", [], async (req, res) => {
+    await PostStore.delete(req.params.postId);
+    res.status(200).end();
+});
+
+router.get("/user/:userId", [
+    param('userId').not().isEmpty(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json( { errors: errors.array() });
+    }    
+    var posts = await PostStore.getForUser(req.params.userId);
+    req.json(posts).status(200).end();
 });
 
 module.exports = router;

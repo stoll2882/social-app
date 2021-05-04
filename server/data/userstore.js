@@ -32,6 +32,7 @@ class UserStore {
 
     static generateToken(user) {
         return { 
+            id: user._id,
             token: 'test123',
             email: user.email,
             alias: user.alias,

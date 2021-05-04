@@ -37,6 +37,7 @@ export default class UserService {
         } else {
             var parsedToken = JSON.parse(token);
             return {
+                id: parsedToken.id,
                 email: parsedToken.email,
                 firstName: parsedToken.firstName,
                 lastName: parsedToken.lastName,

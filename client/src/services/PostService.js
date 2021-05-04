@@ -27,4 +27,14 @@ export default class PostService {
             return [];
         }
     }
+
+    static async delete(postId) {
+        try {
+            await axios.delete(getAppApiUrl()+"/api/post/"+postId);
+            return true;
+        } catch(err) {
+            console.log("Failed to delete posting: "+err);
+            return false;
+        }
+    }
 }
