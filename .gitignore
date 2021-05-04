@@ -14,6 +14,10 @@ node_modules
 /build
 client/build
 /client/build
+/server/config/local.json
+local.json
+config/local.json
+local.json
 
 # misc
 .DS_Store
