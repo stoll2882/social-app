@@ -7,13 +7,12 @@ export default function ContactMe() {
   const [subject, setSubject] = useState();
   const [text, setText] = useState();
   const [contactMeWorked, setContactMeWorked] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
     setSending(true);
-    const result = await NotifyService.contactMe(subject, text);
+    await NotifyService.contactMe(subject, text);
     setContactMeWorked(true);
     setSending(false);
   }
