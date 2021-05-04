@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
 import Preferences from './components/Preferences/Preferences';
@@ -16,8 +16,6 @@ import Debug from './components/Debug/Debug';
 const UserContext = React.createContext(null);
 
 export default function App() {
-
-  const [token, setToken] = useState();
 
   return(
     <UserContext.Provider value={null}>
