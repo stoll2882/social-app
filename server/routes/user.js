@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { param, body, validationResult } = require('express-validator');
 const UserStore = require('../data/userstore');
+const auth = require('../middleware/auth');
+const bcrypt = require('bcrypt');
 
 router.post("/", [
     body('email').not().isEmpty(),
@@ -49,9 +51,13 @@ router.post("/login", [], async (req, res) => {
 
     const user = await UserStore.get(email);
     if(user != null) {
-        if(user.password == password) {
-            const token = UserStore.generateToken(user);
-            res.send(token).status(200).end();
+        if(bcrypt.compare(password, user.password)) {
+            const token = await UserStore.generateToken(user);
+            if(token == null) {
+                res.status(500).end();
+            } else {
+                res.send(token).status(200).end();
+            }
         } else {
             res.send(401).end();
         }
@@ -60,14 +66,10 @@ router.post("/login", [], async (req, res) => {
     }
 });
 
-router.get("/:email", [
-    param('email').isEmail()
+router.get("/", [
+    auth
 ], async (req,res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        res.status(400).end();
-    }
-    const user = await UserStore.get(req.params.email);
+    const user = await UserStore.get(req.user.email);
     if(user != null) {
         res.json(user).status(200).end();
     } else {
