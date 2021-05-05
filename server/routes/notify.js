@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const UserStore = require('../data/userstore');
 const nodemailer = require('nodemailer');
 const config = require('config');
+const auth = require('../middleware/auth');
 
 const SITE_EMAIL = config.get('Mailer.email');
 const EMAIL_PASSWORD = config.get('Mailer.password');
@@ -17,7 +18,7 @@ var transporter = nodemailer.createTransport({
   });
 
 router.post("/contactme", [
-    body('email').isEmail(),
+    auth,
     body('subject').not().isEmpty(),
     body('text').not().isEmpty()
 ], async (req,res) => {
@@ -30,7 +31,7 @@ router.post("/contactme", [
         from: SITE_EMAIL,
         to: SITE_EMAIL,
         subject: req.body.subject,
-        text: req.body.text
+        text: req.user.email + " -> " + req.body.text
     }
 
     try {

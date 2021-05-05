@@ -12,7 +12,7 @@ export default class NotifyService {
         }
         try {
             var contactMeInfo = { email: userInfo.email, subject: subject, text: text };
-            await axios.post(getAppApiUrl()+'/api/notify/contactme', contactMeInfo);
+            await axios.post(getAppApiUrl()+'/api/notify/contactme', contactMeInfo, UserService.getAuthHeaders());
             return true;
         } catch(err) {
             console.log("Error asking for contact me.."+err);

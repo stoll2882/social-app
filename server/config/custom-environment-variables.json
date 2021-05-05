@@ -5,5 +5,9 @@
     "Mailer": {
         "email": "MAILER_EMAIL",
         "password": "MAILER_PASSWORD"
-    }    
+    },
+    "Security": {
+        "jwtSecret": "JWT_SECRET",
+        "passwordSalt": "PASSWORD_SALT"
+    }
 }

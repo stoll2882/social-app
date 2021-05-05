@@ -3,9 +3,10 @@ const router = express.Router();
 const { param, body, validationResult } = require('express-validator');
 const PostStore = require('../data/poststore');
 const UserStore = require('../data/userstore');
+const auth = require('../middleware/auth');
 
 router.post("/", [
-    body('email').isEmail(),
+    auth,
     body('text').not().isEmpty()
 ], async (req,res) => {
     const errors = validationResult(req);
@@ -13,7 +14,7 @@ router.post("/", [
         return res.status(400).json( { errors: errors.array() });
     }
 
-    var user = await UserStore.get(req.body.email);
+    var user = await UserStore.get(req.user.email);
 
     if(user == null) {
         console.log("Failed to get author's user data");
@@ -39,17 +40,18 @@ router.post("/", [
     res.status(200).end();
 });
 
-router.get("/", [], async (req, res) => {
+router.get("/", [auth], async (req, res) => {
     var posts = await PostStore.getAll();
     res.json(posts).status(200).end();
 });
 
-router.delete("/:postId", [], async (req, res) => {
+router.delete("/:postId", [auth], async (req, res) => {
     await PostStore.delete(req.params.postId);
     res.status(200).end();
 });
 
 router.get("/user/:userId", [
+    auth,
     param('userId').not().isEmpty(),
 ], async (req, res) => {
     const errors = validationResult(req);

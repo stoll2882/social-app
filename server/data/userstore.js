@@ -1,4 +1,7 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 class UserStore {
 
@@ -24,22 +27,36 @@ class UserStore {
 
     static async save(user) {
         try {
+            const salt = await bcrypt.genSalt(config.get("Security.passwordSalt"));
+            user.password  = await bcrypt.hash(user.password, salt);
             await user.save();
         } catch(err) {
             console.log("Failed to save new user "+err);
         }        
     }
 
-    static generateToken(user) {
-        return { 
+    static async generateToken(user) {
+
+        const payload = {             
             id: user._id,
-            token: 'test123',
             email: user.email,
             alias: user.alias,
             firstName: user.firstName,
             lastName: user.lastName,
             mobile: user.mobile
         };
+
+        try {
+            const token = await jwt.sign(
+                payload, 
+                config.get('Security.jwtSecret'),
+                { expiresIn: '5 days'}
+            );
+            return token;            
+        } catch(err) {
+            console.log("Error generating token: "+err);
+            return null;
+        }
     }
     
 }
