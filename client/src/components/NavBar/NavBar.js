@@ -19,6 +19,9 @@ export default function NavBar() {
     window.location.reload();
   }
 
+  const userInfo = UserService.getUserInfo();
+  const userName = userInfo.firstName + " " + userInfo.lastName;
+
   return(
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/">Social App</Navbar.Brand>
@@ -32,7 +35,7 @@ export default function NavBar() {
             <Nav.Link href="dashboard">Dashboard</Nav.Link>
             <Nav.Link href="posts">Posts</Nav.Link>
             <Nav.Link href="contactme">Contact Me</Nav.Link>
-            <NavDropdown title="User" id="basic-nav-dropdown">
+            <NavDropdown title={userName} id="basic-nav-dropdown">
               <NavDropdown.Item href="preferences">Preferences</NavDropdown.Item>
               <NavDropdown.Divider/>
               <NavDropdown.Item onClick={() => doLogout() }>Logout</NavDropdown.Item>
