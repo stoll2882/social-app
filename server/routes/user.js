@@ -35,6 +35,7 @@ router.post("/", [
         alias: req.body.alias
     });
 
+
     try {
         await UserStore.save(newUser);
     } catch(err) {
