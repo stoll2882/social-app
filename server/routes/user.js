@@ -16,12 +16,14 @@ router.post("/", [
 ], async (req,res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json( { errors: errors.array() });
+        res.status(400).json( { errors: errors.array() });
+        return;
     }
     const foundUser = await UserStore.get(req.body.email);
     
     if(foundUser != null) {
-        return res.send("User already exists").status(400);
+        res.send("User already exists").status(400).end();
+        return;
     }
 
     var newUser = new User({
@@ -40,7 +42,7 @@ router.post("/", [
         res.send("Failed to create user").status(400).end();
     }
     
-    const token = UserStore.generateToken(newUser);
+    const token = await UserStore.generateToken(newUser);
 
     res.send(token).status(200).end();
 });

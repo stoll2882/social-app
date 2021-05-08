@@ -20,7 +20,7 @@ export default function NavBar() {
   }
 
   const userInfo = UserService.getUserInfo();
-  const userName = userInfo.firstName + " " + userInfo.lastName;
+  const userName = (userInfo == null) ? "" : userInfo.firstName + " " + userInfo.lastName;
 
   return(
     <Navbar bg="light" expand="lg">
