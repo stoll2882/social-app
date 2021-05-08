@@ -9,5 +9,8 @@
     "Security": {
         "jwtSecret": "JWT_SECRET",
         "passwordSalt": "PASSWORD_SALT"
+    },
+    "Database": {
+        "path": "DATABASE_PATH"
     }
 }
