@@ -27,7 +27,7 @@ class UserStore {
 
     static async save(user) {
         try {
-            const salt = await bcrypt.genSalt(config.get("Security.passwordSalt"));
+            const salt = await bcrypt.genSalt(parseInt(config.get("Security.passwordSalt")));
             user.password  = await bcrypt.hash(user.password, salt);
             await user.save();
         } catch(err) {
